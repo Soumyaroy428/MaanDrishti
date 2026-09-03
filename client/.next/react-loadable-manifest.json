@@ -1,0 +1,21 @@
+{
+  "app\\[...slug]\\page.tsx -> ../../App": {
+    "id": "app\\[...slug]\\page.tsx -> ../../App",
+    "files": [
+      "static/css/_app-pages-browser_App_tsx.css",
+      "static/chunks/_app-pages-browser_App_tsx.js"
+    ]
+  },
+  "routes\\Analytics.tsx -> @/components/maps/DistrictComplianceMap": {
+    "id": "routes\\Analytics.tsx -> @/components/maps/DistrictComplianceMap",
+    "files": [
+      "static/chunks/_app-pages-browser_components_maps_DistrictComplianceMap_tsx.js"
+    ]
+  },
+  "routes\\Inspections.tsx -> @/components/maps/InspectorScheduleMap": {
+    "id": "routes\\Inspections.tsx -> @/components/maps/InspectorScheduleMap",
+    "files": [
+      "static/chunks/_app-pages-browser_components_maps_InspectorScheduleMap_tsx.js"
+    ]
+  }
+}

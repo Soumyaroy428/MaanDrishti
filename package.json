@@ -1,0 +1,15 @@
+{
+  "name": "maandrishti",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix client && npm install --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev": "concurrently \"npm run dev:client\" \"npm run dev:server\"",
+    "build": "npm run build --prefix client",
+    "start": "concurrently \"npm run start --prefix client\" \"npm run start --prefix server\""
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}
