@@ -1,12 +1,13 @@
 import { Router } from "express";
 import * as authController from "../controllers/authController";
+import { authenticate } from "../middleware/auth";
 
 const authRouter = Router();
 authRouter.post("/register", authController.register);
 authRouter.post("/login", authController.login);
-authRouter.get("/me", authController.me);
-authRouter.patch("/me", authController.updateMe);
-authRouter.put("/me", authController.updateMe);
+authRouter.get("/me", authenticate, authController.me);
+authRouter.patch("/me", authenticate, authController.updateMe);
+authRouter.put("/me", authenticate, authController.updateMe);
 authRouter.post("/logout", (_request, response) => response.status(204).end());
 authRouter.post("/verify-otp", (_request, response) => response.json({ access_token: "" }));
 authRouter.post("/resend-otp", (_request, response) => response.json({ message: "OTP sent" }));

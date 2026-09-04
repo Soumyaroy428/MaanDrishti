@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { api } from "@/lib/api-client";
 import { Loader2 } from "lucide-react";
 import AuthLayout from "@/components/AuthLayout";
@@ -12,8 +12,7 @@ export default function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  // Post-login destination (e.g. the MCP OAuth consent page sends users here
-  // with returnTo so the grant flow can resume). Same-origin paths only.
+  const navigate = useNavigate();
   const returnTo = safeReturnTo();
 
   const handleSubmit = async (e) => {
@@ -22,7 +21,9 @@ export default function Login() {
     setLoading(true);
     try {
       await api.auth.loginViaEmailPassword(email, password);
-      window.location.href = returnTo;
+      // Force a page reload to ensure authentication state is properly set
+      // Redirect to the main page which uses the Layout component
+      window.location.href = "/";
     } catch (err) {
       setError(err.message || "Invalid email or password");
     } finally {
@@ -36,8 +37,8 @@ export default function Login() {
 
   return (
     <AuthLayout
-      title="Welcome to Zaplify"
-      subtitle="Everything that makes your sales easy"
+      title="Welcome to Maan Drishti"
+      subtitle="Everything that makes your life easy"
       footer={
         <>
           Don't have an account?{" "}

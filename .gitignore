@@ -1,7 +1,53 @@
+# Dependencies
 node_modules/
 client/node_modules/
+server/node_modules/
 **/node_modules/
+
+# Build outputs
 .next/
+out/
+dist/
+build/
+client/.next/
+client/out/
+client/dist/
+client/build/
+
+# Environment variables
 .env
 .env.local
+.env.development.local
+.env.test.local
+.env.production.local
+server/.env
+client/.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
 .DS_Store
+Thumbs.db
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Cache
+.cache/
+.parcel-cache/
+.eslintcache
+
+# Misc
+*.pid
+*.seed
+*.pid.lock
+coverage/
+.nyc_output/
