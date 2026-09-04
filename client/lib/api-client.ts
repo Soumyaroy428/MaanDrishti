@@ -23,7 +23,7 @@ async function request<T>(path: string, init: RequestInit = {}): Promise<T> {
   headers.set("Content-Type", "application/json");
   const accessToken = token();
   if (accessToken) headers.set("Authorization", `Bearer ${accessToken}`);
-  const response = await fetch(`${API_URL}${path}`, { ...init, headers, credentials: "include" });
+  const response = await fetch(`${API_URL}${path}`, { ...init, headers });
   const data = await response.json().catch(() => undefined);
   if (!response.ok) throw new ApiError((data as { message?: string })?.message || response.statusText, response.status, data);
   return data as T;
@@ -68,11 +68,15 @@ export const api = {
   auth: {
     me: () => request<any>("/api/auth/me"),
     loginViaEmailPassword: async (email: string, password: string) => {
-      const result = await request<{ access_token: string }>("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });
-      if (typeof window !== "undefined") window.localStorage.setItem("access_token", result.access_token);
+      const result = await request<{ access_token: string; user?: any }>("/api/auth/login", { method: "POST", body: JSON.stringify({ email, password }) });
+      if (typeof window !== "undefined" && result.access_token) window.localStorage.setItem("access_token", result.access_token);
       return result;
     },
-    register: (data: { email: string; password: string }) => request("/api/auth/register", { method: "POST", body: JSON.stringify(data) }),
+    register: async (data: { email: string; password: string; name?: string }) => {
+      const result = await request<{ access_token: string; user?: any }>("/api/auth/register", { method: "POST", body: JSON.stringify(data) });
+      if (typeof window !== "undefined" && result.access_token) window.localStorage.setItem("access_token", result.access_token);
+      return result;
+    },
     verifyOtp: (data: Record<string, string>) => request<{ access_token: string }>("/api/auth/verify-otp", { method: "POST", body: JSON.stringify(data) }),
     resendOtp: (email: string) => request("/api/auth/resend-otp", { method: "POST", body: JSON.stringify({ email }) }),
     resetPasswordRequest: (email: string) => request("/api/auth/forgot-password", { method: "POST", body: JSON.stringify({ email }) }),

@@ -29,7 +29,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const checkUserAuth = async () => {
     try {
       setIsLoadingAuth(true);
-      setUser(await api.auth.me());
+      const userData = await api.auth.me();
+      setUser(userData);
       setIsAuthenticated(true);
     } catch {
       setUser(null);
@@ -39,6 +40,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setAuthChecked(true);
     }
   };
+  
   const checkAppState = async () => {
     setIsLoadingPublicSettings(true);
     setAuthError(null);
@@ -54,12 +56,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setIsLoadingPublicSettings(false);
     }
   };
+  
   useEffect(() => { void checkAppState(); }, []);
+  
   const logout = (redirect = true) => {
     setUser(null); setIsAuthenticated(false);
     api.auth.logout(redirect ? window.location.href : undefined);
   };
+  
   const navigateToLogin = () => api.auth.redirectToLogin(window.location.href);
+  
   return <AuthContext.Provider value={{ user, isAuthenticated, isLoadingAuth, isLoadingPublicSettings, authError, appPublicSettings, authChecked, logout, navigateToLogin, checkUserAuth, checkAppState }}>{children}</AuthContext.Provider>;
 }
 

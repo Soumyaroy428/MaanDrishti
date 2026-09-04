@@ -7,7 +7,18 @@ import { chatRouter } from "./routes/chat";
 
 const server = express();
 
-server.use(cors({ origin: process.env.CLIENT_URL?.split(",") ?? true }));
+const allowedOrigins = process.env.CLIENT_URL?.split(",") ?? [
+  "http://localhost:3000",
+  "http://localhost:3001",
+  "http://localhost:3003",
+];
+
+server.use(cors({
+  origin: allowedOrigins,
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+}));
 server.use(express.json());
 
 server.get("/api/health", (_request, response) => {
